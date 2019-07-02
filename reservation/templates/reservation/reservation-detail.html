@@ -1,0 +1,33 @@
+<!DOCTYP{% extends "parking/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2">Author: {{ reservation.author }}</a>
+          <small class="text-muted">Start date: {{ reservation.start_date }}</small>
+        </div>
+        <h2><a class="article-title" href="{% url 'reservation-detail' reservation.id %}">Description: {{ reservation.description }}</a></h2>
+        {% if reservation.regime == 1 %}
+            <p class="article-content">Regime Type: Fast Charge</p>
+        {% elif reservation.regime == 2 %}
+            <p class="article-content">Regime Type: Normal</p>
+        {% endif %}
+        <p class="article-content">Car lot: {{ reservation.car_lot }}</p>
+        {% if reservation.repeat == 0 %}
+            <p class="article-content">Repeat: Once</p>
+        {% elif reservation.repeat == 1 %}
+            <p class="article-content">Repeat: Daily</p>
+        {% elif reservation.repeat == 2 %}
+            <p class="article-content">Repeat: Weekly</p>
+        {% elif reservation.repeat == 3 %}
+            <p class="article-content">Repeat: Monthly</p>
+        {% endif %}
+        <p class="article-content">Plate Number: {{ reservation.plate_number }}</p>
+        <div>
+          <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'reservation-update' object.id %}">Update</a>
+          <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'reservation-delete' object.id %}">Delete</a>
+        </div>
+      </div>
+    </article>
+{% endblock content %}

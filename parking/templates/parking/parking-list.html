@@ -1,0 +1,16 @@
+{% extends "parking/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% for parking in parkings %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <h2>Company: {{ parking.company }}</h2>
+            </div>
+            <h2><a class="article-title" href="{% url 'parking-detail' parking.id %}">Address: {{ parking.address }}</a></h2>
+            <p class="article-content">Total car lots: {{ parking.total_car_lots }}</p>
+            <p class="article-content">Status: {{ parking.status }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
