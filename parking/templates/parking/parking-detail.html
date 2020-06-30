@@ -1,0 +1,51 @@
+{% extends "parking/Base.html" %}
+{% block content %}
+  <article class="media content-section">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2">Company: {{ object.company }}</a>
+      </div>
+      <h2 class="article-title">{{ object.address }}</h2>
+      <p class="article-content">Total car lots: {{ object.total_car_lots }}</p>
+      <p class="article-content">Status: {{ object.status }}</p>
+      <p class="article-content">Empty Lots: {{ emptylots }}</p>
+      {%if user.groups.all.0.name == 'Company' %}
+          <p class="article-content">Filled Lots: {{ filledlots }}</p>
+          <p class="article-content">Number reservations day: {{ netprofiteday }}, Net profite day:  {{ netprofitedayvalue }}</p>
+          <p class="article-content">Number reservations week: {{ netprofiteweek }}, Net profite week:  {{ netprofiteweekvalue }}</p>
+          <p class="article-content">Number reservations month: {{ netprofitemonth }}, Net profite month:  {{ netprofitemonthvalue }}</p>
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'parking-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'parking-delete' object.id %}">Delete</a>
+          </div>
+        {% for reservation in reservationlist %}
+          <article class="media content-section">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2">Author: {{ reservation.author }}</a>
+                <small class="text-muted">Start date: {{ reservation.start_date|date:"F d, Y, H:i:s" }}</small>
+              </div>
+              <h2><a class="article-title">Description: {{ reservation.description }}</a></h2>
+              {% if reservation.regime == 1 %}
+                    <p class="article-content">Regime Type: Fast Charge</p>
+              {% elif reservation.regime == 2 %}
+                    <p class="article-content">Regime Type: Normal</p>
+              {% endif %}
+              <p class="article-content">Car lot: {{ reservation.car_lot }}</p>
+              {% if reservation.repeat == 0 %}
+                  <p class="article-content">Repeat: Once</p>
+              {% elif reservation.repeat == 1 %}
+                  <p class="article-content">Repeat: Daily</p>
+              {% elif reservation.repeat == 2 %}
+                  <p class="article-content">Repeat: Weekly</p>
+              {% elif reservation.repeat == 3 %}
+                  <p class="article-content">Repeat: Monthly</p>
+              {% endif %}
+              <p class="article-content">Plate Number: {{ reservation.plate_number }}</p>
+            </div>
+          </article>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </article>
+{% endblock content %}

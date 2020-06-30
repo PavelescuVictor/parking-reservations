@@ -1,0 +1,29 @@
+{% extends "parking/Base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        {% if show == 'true' %}
+            {% for i,j,k,l in list %}
+                  <div class="media-body">
+                    <div class="article-metadata">
+                      <small class="text-muted">Start date: {{ i }}</small>
+                      <small class="text-muted">End date: {{ j }}</small>
+                      <a class="mr-2">Net Profit Count: {{ k }}</a>
+                      <a class="mr-2">Net Profit Sum: {{ l }}</a>
+                    </div>
+                  </div>
+            {% endfor %}
+        {% else %}
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Net Profit</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Show</button>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+{% endblock content %}
